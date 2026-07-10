@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ Title }}</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f5f7fb;
+            font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            padding: 40px 0;
+        }
+
+        .card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,.08);
+        }
+
+        .header {
+            background: #7BAAF7;
+            color: #ffffff;
+            padding: 40px;
+            text-align: center;
+        }
+
+            .header h1 {
+                margin: 0;
+                font-size: 28px;
+                font-weight: 600;
+            }
+
+        .content {
+            padding: 40px;
+            color: #4b5563;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+            .content p {
+                margin: 0 0 18px;
+            }
+
+        .reservation-box {
+            background: #f8faff;
+            border: 1px solid #d9e6ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+            .reservation-box table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .reservation-box td {
+                padding: 8px 0;
+                vertical-align: top;
+            }
+
+                .reservation-box td:first-child {
+                    font-weight: 600;
+                    color: #374151;
+                    width: 45%;
+                }
+
+        .footer {
+            background: #fafbfc;
+            border-top: 1px solid #eceff3;
+            text-align: center;
+            padding: 28px;
+            color: #9aa3af;
+            font-size: 13px;
+        }
+
+            .footer p {
+                margin: 6px 0;
+            }
+
+        @media only screen and (max-width: 620px) {
+
+            .card {
+                margin: 15px;
+            }
+
+            .content {
+                padding: 30px;
+            }
+
+            .header {
+                padding: 30px;
+            }
+
+            .reservation-box td {
+                display: block;
+                width: 100%;
+                padding: 5px 0;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="card">
+
+            <div class="header">
+                <h1>Reservation Confirmed</h1>
+            </div>
+
+            <div class="content">
+
+                <p>Hello <strong>{{ FirstName }}</strong>,</p>
+
+                <p>
+                    Your reservation has been successfully confirmed.
+                    Below you will find the details of your booking.
+                </p>
+
+                <div class="reservation-box">
+
+                    <table>
+                        <tr>
+                            <td>Reservation ID</td>
+                            <td>{{ ReservationId }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>City</td>
+                            <td>{{ City }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Hotel</td>
+                            <td>{{ HotelName }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Address</td>
+                            <td>{{ Address }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Room</td>
+                            <td>{{ RoomNumber }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Room Type</td>
+                            <td>{{ RoomType }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Check-In</td>
+                            <td>{{ CheckIn }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Check-Out</td>
+                            <td>{{ CheckOut }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Guests</td>
+                            <td>{{ Guests }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Total Cost</td>
+                            <td>{{ TotalCost }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Status</td>
+                            <td>{{ Status }}</td>
+                        </tr>
+                    </table>
+
+                </div>
+
+                <p>
+                    We look forward to welcoming you. If you need to modify or cancel your reservation, please contact our support team.
+                </p>
+
+                <p>
+                    Thank you for choosing <strong>{{ ApplicationName }}</strong>.
+                </p>
+
+            </div>
+
+            <div class="footer">
+                <p>© {{ Year }} {{ ApplicationName }}</p>
+                <p>This email was sent automatically. Please do not reply.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
