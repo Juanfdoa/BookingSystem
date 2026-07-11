@@ -6,26 +6,19 @@ API REST desarrollada en **ASP.NET Core 10** siguiendo los principios de **Clean
 
 # Tecnologías
 
-### Backend
-- ASP.NET Core 10
-- Entity Framework Core
-- ASP.NET Identity
-
-### Base de datos
-- PostgreSQL
-
-### Seguridad
-- JWT Authentication
-
-### Validaciones
-- FluentValidation
-
-### Correo electrónico
-- SMTP
-- Scriban
-
-### Documentación
-- Swagger / OpenAPI
+| Categoría | Tecnología | Propósito |
+|-----------|------------|-----------|
+| Framework | ASP.NET Core 10 | Desarrollo de la API REST |
+| Arquitectura | Clean Architecture | Separación de responsabilidades |
+| Lenguaje | C# | Desarrollo de la aplicación |
+| ORM | Entity Framework Core | Acceso a datos |
+| Base de datos | PostgreSQL | Persistencia |
+| Autenticación | ASP.NET Identity | Gestión de usuarios |
+| Seguridad | JWT Bearer Authentication | Autenticación de la API |
+| Validaciones | FluentValidation | Validación de solicitudes |
+| Correo | SMTP + Scriban | Envío de correos HTML |
+| Documentación | Swagger / OpenAPI | Documentación interactiva |
+| Control de versiones | Git + GitHub | Gestión del código fuente |
 
 ---
 
@@ -109,6 +102,18 @@ La API expone los endpoints REST; la capa **Application** contiene la lógica de
 
 ---
 
+# Decisiones técnicas
+
+Durante el desarrollo se tomaron las siguientes decisiones de diseño:
+
+- **Clean Architecture** para separar responsabilidades y facilitar el mantenimiento, las pruebas y la evolución del sistema.
+- **Repository Pattern** para desacoplar la lógica de negocio del mecanismo de persistencia.
+- **Unit of Work** para coordinar operaciones que modifican múltiples entidades dentro de una misma transacción lógica.
+- **ASP.NET Identity** para la autenticación y administración de usuarios, evitando implementar mecanismos de seguridad desde cero.
+- **FluentValidation** para centralizar las validaciones de entrada y mantener los controladores y servicios enfocados en la lógica de negocio.
+- **Scriban** para separar las plantillas HTML del código fuente y facilitar el mantenimiento de los correos electrónicos.
+- **PostgreSQL** como motor de base de datos por su estabilidad, rendimiento y soporte para tipos de datos avanzados.
+
 # Funcionalidades
 
 ## Autenticación
@@ -191,9 +196,15 @@ Al confirmar una reserva se envía un correo electrónico al huésped principal 
 - Validaciones de negocio
 - Soft Delete
 - Global Exception Handling
-- Paginación y filtros
-- Envío de correos HTML (SMTP + Scriban)
+- Filtros dinámicos
+- Paginación
+- Consulta de disponibilidad
+- Validación de capacidad de habitaciones
+- Confirmación de reservas mediante correo electrónico
+- Plantillas HTML con Scriban
+- Variables de entorno
 - JWT Authentication
+- ASP.NET Identity
 - Swagger / OpenAPI
 
 ---
@@ -203,6 +214,18 @@ Al confirmar una reserva se envía un correo electrónico al huésped principal 
 - .NET 10 SDK
 - PostgreSQL
 - Visual Studio 2022 (17.14 o superior)
+
+---
+
+# Seguridad
+
+La API implementa las siguientes medidas de seguridad:
+
+- Autenticación mediante JWT Bearer.
+- Hash de contraseñas mediante ASP.NET Identity.
+- Validación de entradas con FluentValidation.
+- Manejo centralizado de excepciones.
+- Variables sensibles mediante variables de entorno.
 
 ---
 
@@ -365,3 +388,25 @@ La implementación actual cumple con los requisitos planteados para la prueba t�
 
 - **Monitoreo y observabilidad**
   - Incorporar herramientas de registro y monitoreo como Serilog para facilitar el diagnóstico de errores y el seguimiento del comportamiento de la aplicación.
+
+---
+
+# Uso de Inteligencia Artificial
+
+Durante el desarrollo se utilizaron herramientas de inteligencia artificial como apoyo para:
+
+- Refinar la documentación técnica.
+- Generar propuestas iniciales para plantillas HTML.
+- Revisar y mejorar consultas SQL.
+- Asistir en la construcción de código repetitivo.
+- Generar datos de prueba y completar solicitudes JSON utilizadas durante las pruebas de los endpoints.
+
+Todo el código generado fue revisado, adaptado y validado manualmente antes de incorporarse a la solución.
+
+---
+
+# Colección Postman
+
+Se incluye una colección de Postman con todos los endpoints del sistema.
+
+Ubicación: https://github.com/Juanfdoa/BookingSystem/tree/main/postman/BookingSystem.postman_collection
