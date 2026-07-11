@@ -409,4 +409,4 @@ Todo el código generado fue revisado, adaptado y validado manualmente antes de 
 
 Se incluye una colección de Postman con todos los endpoints del sistema.
 
-Ubicación: https://github.com/Juanfdoa/BookingSystem/tree/main/postman/BookingSystem.postman_collection
+Ubicación: https://github.com/Juanfdoa/BookingSystem/blob/main/postman/BookingSystem.postman_collection.json
