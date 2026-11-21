@@ -1,4 +1,4 @@
-﻿using BookingSystem.Application.DTOs.Room;
+using BookingSystem.Application.DTOs.Room;
 using BookingSystem.Application.Wrapper;
 
 namespace BookingSystem.Application.Interfaces.Services
@@ -10,7 +10,7 @@ namespace BookingSystem.Application.Interfaces.Services
         Task<ApiResponse<RoomDetailedResponseDto>> CreateAsync(RoomRequestDto request);
         Task UpdateAsync(Guid id, RoomUpdateRequestDto request);
         Task DeleteAsync(Guid id);
-        Task<ApiResponse<IEnumerable<AvailableRoomResponseDto>>> SearchAvailableAsync(AvailabilityFilter filter, CancellationToken cancellationToken = default);
+        Task<ApiResponse<IEnumerable<AvailableRoomResponseDto>>> SearchAvailableAsync(AvailabilityFilter filter, Pagination pagination, CancellationToken cancellationToken = default);
         Task UpdateStatus(Guid id, bool isActive);
     }
 }
