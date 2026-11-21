@@ -1,5 +1,6 @@
-﻿using BookingSystem.Application.DTOs.Room;
+using BookingSystem.Application.DTOs.Room;
 using BookingSystem.Application.Interfaces.Repositories;
+using BookingSystem.Application.Wrapper;
 using BookingSystem.Domain.Common;
 using BookingSystem.Domain.Entities;
 using BookingSystem.Domain.Enums;
@@ -43,7 +44,7 @@ namespace BookingSystem.Infrastructure.Repositories
             if (filter.IsActive.HasValue)
             {
                 query = query.Where(x => x.IsActive == filter.IsActive);
-            } 
+            }
 
             if (filter.MinPrice.HasValue)
             {
@@ -68,12 +69,15 @@ namespace BookingSystem.Infrastructure.Repositories
             };
         }
 
-        public async Task<IEnumerable<Room>> SearchAvailableAsync(AvailabilityFilter filter, CancellationToken cancellationToken = default)
+        public async Task<PagedResult<Room>> SearchAvailableAsync(AvailabilityFilter filter, Pagination pagination, CancellationToken cancellationToken = default)
         {
             var checkInUtc = DateTime.SpecifyKind(filter.CheckIn, DateTimeKind.Utc);
             var checkOutUtc = DateTime.SpecifyKind(filter.CheckOut, DateTimeKind.Utc);
 
-            return await _context.Rooms
+            var pageNumber = Math.Max(1, pagination.PageNumber);
+            var pageSize = Math.Clamp(pagination.PageSize, 1, 100);
+
+            var query = _context.Rooms
                 .AsNoTracking()
                 .Include(x => x.Hotel)
                 .Where(x =>
@@ -85,8 +89,22 @@ namespace BookingSystem.Infrastructure.Repositories
                         r.RoomId == x.Id &&
                         r.Status != ReservationStatus.Cancelled &&
                         checkInUtc < r.CheckOut &&
-                        checkOutUtc > r.CheckIn))
+                        checkOutUtc > r.CheckIn));
+
+            var totalRecords = await query.CountAsync(cancellationToken);
+
+            var rooms = await query
+                .OrderBy(x => x.Hotel.Name)
+                .ThenBy(x => x.Number)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync(cancellationToken);
+
+            return new PagedResult<Room>
+            {
+                Items = rooms,
+                TotalRecords = totalRecords
+            };
         }
 
         public async Task<bool> IsRoomAvailableAsync(Guid roomId, DateTime checkIn, DateTime checkOut)
