@@ -1,4 +1,4 @@
-﻿using BookingSystem.Application.DTOs.Room;
+using BookingSystem.Application.DTOs.Room;
 using BookingSystem.Application.Exceptions;
 using BookingSystem.Application.Interfaces.Repositories;
 using BookingSystem.Application.Interfaces.Services;
@@ -31,7 +31,7 @@ namespace BookingSystem.Application.Services
             if (!hotel.IsActive)
                 throw new BusinessException("The hotel is temporarily unavailable.");
 
-            var result = await _roomRepository.GetFilteredAsync(hotelId,filter);
+            var result = await _roomRepository.GetFilteredAsync(hotelId, filter);
 
             return new ApiResponse<IEnumerable<RoomResponseDto>>
             {
@@ -91,14 +91,23 @@ namespace BookingSystem.Application.Services
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<ApiResponse<IEnumerable<AvailableRoomResponseDto>>> SearchAvailableAsync(AvailabilityFilter filter, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<IEnumerable<AvailableRoomResponseDto>>> SearchAvailableAsync(AvailabilityFilter filter, Pagination pagination, CancellationToken cancellationToken = default)
         {
-            var rooms = await _roomRepository.SearchAvailableAsync(filter);
+            var result = await _roomRepository.SearchAvailableAsync(filter, pagination, cancellationToken);
+
+            var pageNumber = Math.Max(1, pagination.PageNumber);
+            var pageSize = Math.Clamp(pagination.PageSize, 1, 100);
 
             return new ApiResponse<IEnumerable<AvailableRoomResponseDto>>
             {
                 Success = true,
-                Data = rooms.Select(RoomMapper.ToAvailableResponseDto)
+                Data = result.Items.Select(RoomMapper.ToAvailableResponseDto),
+                Pagination = new PaginationResponse
+                {
+                    PageNumber = pageNumber,
+                    PageSize = pageSize,
+                    TotalRecords = result.TotalRecords
+                }
             };
         }
 
