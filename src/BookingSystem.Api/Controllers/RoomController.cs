@@ -1,7 +1,6 @@
-﻿using BookingSystem.Application.DTOs.Room;
+using BookingSystem.Application.DTOs.Room;
 using BookingSystem.Application.Interfaces.Services;
 using BookingSystem.Application.Wrapper;
-using BookingSystem.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -84,10 +83,9 @@ namespace BookingSystem.Api.Controllers
         /// availability search for rooms based on the provided filter criteria.
         /// </summary>
         [HttpGet("availability")]
-        public async Task<IActionResult> SearchAvailability([FromQuery] AvailabilityFilter filter)
+        public async Task<IActionResult> SearchAvailability([FromQuery] AvailabilityFilter filter, [FromQuery] Pagination pagination, CancellationToken cancellationToken)
         {
-            var response = await _roomService.SearchAvailableAsync(filter);
-
+            var response = await _roomService.SearchAvailableAsync(filter, pagination, cancellationToken);
             return Ok(response);
         }
 
